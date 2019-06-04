@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>952783894610-9v0hih6nb0lcqmf40odtuvnjee6dunta.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.952783894610-9v0hih6nb0lcqmf40odtuvnjee6dunta</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBu5VCCBus1W6yfVnuP-cjFWy8aOEuG3x0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>952783894610</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.solulab.ProfileFirebaseDemo</string>
+	<key>PROJECT_ID</key>
+	<string>fir-profile-5e662</string>
+	<key>STORAGE_BUCKET</key>
+	<string>fir-profile-5e662.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:952783894610:ios:58d0c48d44d5a0b0</string>
+	<key>DATABASE_URL</key>
+	<string>https://fir-profile-5e662.firebaseio.com</string>
+</dict>
+</plist>
