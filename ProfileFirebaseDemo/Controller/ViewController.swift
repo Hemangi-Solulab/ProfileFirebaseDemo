@@ -12,7 +12,7 @@ import Firebase
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var profileArray : Dictionary<String , String> = ["name":"a", "dob" : "10-08-1992"]
+    var profileArray : [Profile] = [Profile]()
 
     @IBOutlet weak var ProfileTableView: UITableView!
     
@@ -28,6 +28,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
  
     ProfileTableView.register(UINib(nibName: "CustomCellTableViewCell", bundle: nil), forCellReuseIdentifier: "customProfileCell")
     
+        retrieveData()
     
     }
     //MARK: table View delegate methods
@@ -39,31 +40,35 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
        
         let cell = tableView.dequeueReusableCell(withIdentifier: "customProfileCell", for: indexPath) as! CustomCellTableViewCell
-        //var items = profileArray.values as! Dictionary<String , String>
-        cell.NameLabel.text = profileArray["name"] as! String
-        cell.DOBlabel.text = profileArray["dob"] as! String
-       
+ 
+        
+            cell.NameLabel.text = profileArray[indexPath.row].name
+            cell.DOBlabel.text = profileArray[indexPath.row].dob
+      
+        
         return cell
     }
     
     
     
     //MARK: retrive data
-    
-//    let messageDB = Database.database().reference().child("Messages")
-//
-//    messageDB.observe(.childAdded) { (snapshot) in
-//
-//    let snapshotValue = snapshot.value as! Dictionary<String,String>
-//    let text = snapshotValue["MessageBody"]!
-//    let sender = snapshotValue["Sender"]!
-//
-//
-//    var msg = Message()
-//    msg.messageBody = text
-//    msg.sender = sender
-//    self.messageArray.append(msg)
-    
+    func retrieveData(){
+        let profileDB = Database.database().reference().child("Profiles")
+        
+        profileDB.observe(.childAdded) { (snapshot) in
+            
+            let snapshotValue = snapshot.value as! Dictionary<String,String>
+            
+            let name = snapshotValue["name"]!
+            let dob = snapshotValue["dob"]!
+            
+            var profile = Profile()
+            profile.name = name
+            profile.dob = dob
+            self.profileArray.append(profile)
+            self.ProfileTableView.reloadData()
+    }
     
 }
 
+}

@@ -13,23 +13,39 @@ class AddProfileViewController: UIViewController {
     
     
     @IBOutlet weak var NameTextField: UITextField!
-    
     @IBOutlet weak var DOBtextField: UITextField!
     
-    @IBOutlet weak var DOBPicker: UIDatePicker!
+    private var DOBdatePicker : UIDatePicker?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        DOBdatePicker = UIDatePicker()
+        DOBdatePicker?.datePickerMode = .date
+        DOBdatePicker?.addTarget(self, action: #selector(AddProfileViewController.dateChanged(DOBdatePicker:)), for: .valueChanged)
+        
+        
+        
+        DOBtextField.inputView = DOBdatePicker
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(closeDatePicker(gestureRecognizer:)))
+        
+        view.addGestureRecognizer(tapGesture)
+        
+        
         // Do any additional setup after loading the view.
     }
     
+    @objc func dateChanged(DOBdatePicker: UIDatePicker){
+        var dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd-MMM-yyyy"
+        DOBtextField.text = dateFormatter.string(from: DOBdatePicker.date)
+        
     
-    @IBAction func DOBDatePicker(_ sender: Any) {
-        
-        
     }
-    
+    @objc func closeDatePicker(gestureRecognizer : UITapGestureRecognizer){
+        view.endEditing(true)
+    }
     
     @IBAction func SaveBtnClicked(_ sender: Any) {
         
@@ -46,7 +62,7 @@ class AddProfileViewController: UIViewController {
                 print("Message saved successfully..")
                 self.NameTextField.text = ""
                 self.DOBtextField.text = ""
-                self.DOBPicker.date = Date.init()
+               
                self.navigationController?.popToRootViewController(animated: true)
             }
         }

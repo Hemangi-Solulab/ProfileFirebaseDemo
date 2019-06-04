@@ -7,3 +7,11 @@
 //
 
 import Foundation
+class Profile {
+    
+    var name : String = ""
+    var dob : String = ""
+    
+    
+    
+}

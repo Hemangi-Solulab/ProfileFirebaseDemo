@@ -78,16 +78,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <datePicker contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="10" translatesAutoresizingMaskIntoConstraints="NO" id="Lzw-cj-o3n">
-                                <rect key="frame" x="0.0" y="448" width="414" height="216"/>
-                                <color key="backgroundColor" red="0.99378359809172623" green="1" blue="0.66138034121778011" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <date key="date" timeIntervalSinceReferenceDate="581253595.01092601">
-                                    <!--2019-06-03 11:19:55 +0000-->
-                                </date>
-                                <connections>
-                                    <action selector="DOBDatePicker:" destination="CgD-xa-ID6" eventType="valueChanged" id="7Yp-BE-cHT"/>
-                                </connections>
-                            </datePicker>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.49327188729999999" blue="0.47399842739999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -97,11 +87,8 @@
                             <constraint firstItem="7dZ-2U-7QY" firstAttribute="top" secondItem="zpe-67-zaH" secondAttribute="bottom" constant="30" id="D16-RQ-UbW"/>
                             <constraint firstItem="TRF-R9-1QX" firstAttribute="height" secondItem="ANZ-oD-V8t" secondAttribute="height" id="H1G-Fg-8og"/>
                             <constraint firstItem="TRF-R9-1QX" firstAttribute="width" secondItem="ANZ-oD-V8t" secondAttribute="width" id="JFK-0p-L9O"/>
-                            <constraint firstItem="Lzw-cj-o3n" firstAttribute="top" secondItem="7dZ-2U-7QY" secondAttribute="bottom" constant="50" id="Nng-wh-UwJ"/>
-                            <constraint firstItem="Lzw-cj-o3n" firstAttribute="trailing" secondItem="JmD-PI-Z32" secondAttribute="trailing" id="PCw-eh-ycr"/>
                             <constraint firstItem="zpe-67-zaH" firstAttribute="width" secondItem="TRF-R9-1QX" secondAttribute="width" id="SuW-f9-Afb"/>
                             <constraint firstItem="zpe-67-zaH" firstAttribute="height" secondItem="TRF-R9-1QX" secondAttribute="height" id="Twb-JD-NVp"/>
-                            <constraint firstItem="Lzw-cj-o3n" firstAttribute="leading" secondItem="JmD-PI-Z32" secondAttribute="leading" id="ZmZ-ZJ-KyZ"/>
                             <constraint firstItem="TRF-R9-1QX" firstAttribute="leading" secondItem="JmD-PI-Z32" secondAttribute="leading" constant="20" id="dln-83-ggN"/>
                             <constraint firstItem="ANZ-oD-V8t" firstAttribute="leading" secondItem="JmD-PI-Z32" secondAttribute="leading" constant="20" id="eRF-wL-QNo"/>
                             <constraint firstItem="JmD-PI-Z32" firstAttribute="trailing" secondItem="ANZ-oD-V8t" secondAttribute="trailing" constant="20" id="jcM-gg-9zn"/>
@@ -121,7 +108,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="DOBPicker" destination="Lzw-cj-o3n" id="D3B-kM-Laz"/>
                         <outlet property="DOBtextField" destination="7dZ-2U-7QY" id="sPk-xW-QHo"/>
                         <outlet property="NameTextField" destination="TRF-R9-1QX" id="dTM-ly-SuB"/>
                     </connections>
