@@ -44,7 +44,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
             cell.NameLabel.text = profileArray[indexPath.row].name
             cell.DOBlabel.text = profileArray[indexPath.row].dob
-      
+            let imgUrl = profileArray[indexPath.row].photoURL
+    
+        
+        /* get image from url
+         ************************************************************* */
+        let url = URL(string: imgUrl)
+        
+        DispatchQueue.global().async {
+            let data = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
+            DispatchQueue.main.async {
+                cell.imgProfilePic.image = UIImage(data: data!)
+            }
+        }
+        /* *************************************************************
+  */
+     
         
         return cell
     }
@@ -61,10 +76,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             let name = snapshotValue["name"]!
             let dob = snapshotValue["dob"]!
+            let photoUrl = snapshotValue["photoURL"]!
+            
+        
+        
             
             var profile = Profile()
             profile.name = name
             profile.dob = dob
+            profile.photoURL = photoUrl
+       
             self.profileArray.append(profile)
             self.ProfileTableView.reloadData()
     }
