@@ -72,45 +72,71 @@ class AddProfileViewController: UIViewController, UIImagePickerControllerDelegat
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        guard let image = info[.originalImage] as? UIImage else {
+        guard let image = info[.editedImage] as? UIImage else {
             print("No image found")
             return
         }
         
-        imagePicker.dismiss(animated: true, completion: nil)
-        PhotoImgView.image = info[.originalImage] as? UIImage
-        
-       
+        picker.dismiss(animated: true) {
+            self.PhotoImgView.image = info[.editedImage] as? UIImage
+        }
         
     }
     
     
     @IBAction func btnTakePicturre(_ sender: Any) {
-        let vc = UIImagePickerController()
+    
         
-        if !UIImagePickerController.isSourceTypeAvailable(.camera){
+        // 1
+        let optionMenu = UIAlertController(title: nil, message: "Choose Option", preferredStyle: .actionSheet)
+        
+        // 2
+        let cameraButton = UIAlertAction(title: "Camera", style: .default, handler: { (action) -> Void in
             
-//            let alertController = UIAlertController.init(title: nil, message: "Device has no camera.", preferredStyle: .alert)
+            if !UIImagePickerController.isSourceTypeAvailable(.camera){
+                
+                            let alertController = UIAlertController.init(title: nil, message: "Device has no camera.", preferredStyle: .alert)
+                
+                            let okAction = UIAlertAction.init(title: "Alright", style: .default, handler: {(alert: UIAlertAction!) in
+                            })
+                
+                            alertController.addAction(okAction)
+                            self.present(alertController, animated: true, completion: nil)
+                
+//                self.imagePicker.allowsEditing = false
+//                self.imagePicker.sourceType = .photoLibrary
+//                self.imagePicker.delegate = self
+//                self.present(self.imagePicker, animated: true)
 //
-//            let okAction = UIAlertAction.init(title: "Alright", style: .default, handler: {(alert: UIAlertAction!) in
-//            })
-//
-//            alertController.addAction(okAction)
-//            self.present(alertController, animated: true, completion: nil)
-            
-            imagePicker.allowsEditing = false
-            imagePicker.sourceType = .photoLibrary
-            imagePicker.delegate = self
-            present(imagePicker, animated: true, completion:nil)
-            
+            }
+            else{
+                self.imagePicker.sourceType = .camera
+                self.imagePicker.allowsEditing = true
+                self.imagePicker.delegate = self
+                self.present(self.imagePicker, animated: true)
+            }
+           
+        })
+        let galleryButton = UIAlertAction(title: "Gallery", style: .default) { (action) -> Void in
+            self.imagePicker.allowsEditing = true
+            self.imagePicker.sourceType = .photoLibrary
+            self.imagePicker.delegate = self
+            self.present(self.imagePicker,animated: true, completion: nil)
         }
-        else{
-            //other action
-           vc.sourceType = .camera
-            vc.allowsEditing = true
-            vc.delegate = self
-            present(vc, animated: true)
-        }
+        
+        // 3
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        // 4
+        optionMenu.addAction(cameraButton)
+        optionMenu.addAction(galleryButton)
+        optionMenu.addAction(cancelAction)
+        
+        // 5
+        self.present(optionMenu, animated: true, completion: nil)
+        
+        
+      
 
         
         
