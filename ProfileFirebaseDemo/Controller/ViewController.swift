@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import Kingfisher
 
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -44,11 +45,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
             cell.NameLabel.text = profileArray[indexPath.row].name
             cell.DOBlabel.text = profileArray[indexPath.row].dob
-            let imgUrl = profileArray[indexPath.row].photoURL
-    
+        let imgUrl = URL(string : profileArray[indexPath.row].photoURL)
+            cell.imgProfilePic.kf.setImage(with: imgUrl)
         
         /* get image from url
-         ************************************************************* */
+         *************************************************************
         let url = URL(string: imgUrl)
         
         DispatchQueue.global().async {
@@ -57,7 +58,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell.imgProfilePic.image = UIImage(data: data!)
             }
         }
-        /* *************************************************************
+         *************************************************************
   */
      
         
