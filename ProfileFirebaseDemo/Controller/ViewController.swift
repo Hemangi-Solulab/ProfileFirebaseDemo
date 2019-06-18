@@ -82,7 +82,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         
             
-            var profile = Profile()
+            let profile = Profile()
             profile.name = name
             profile.dob = dob
             profile.photoURL = photoUrl
