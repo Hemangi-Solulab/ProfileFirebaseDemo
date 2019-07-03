@@ -18,6 +18,7 @@
 		3D231D9622A54D8500051EB9 /* CustomCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D231D9422A54D8500051EB9 /* CustomCellTableViewCell.swift */; };
 		3D231D9722A54D8500051EB9 /* CustomCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D231D9522A54D8500051EB9 /* CustomCellTableViewCell.xib */; };
 		3D8A7F2022A6452B002626E9 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8A7F1F22A6452B002626E9 /* Profile.swift */; };
+		3DD8E6EE22B8F84D00FDF1BC /* ProfileDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD8E6ED22B8F84D00FDF1BC /* ProfileDetailViewController.swift */; };
 		FF7832F2DC31E2C718A4F2B8 /* Pods_ProfileFirebaseDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8054FA208AC4997001D8CA0 /* Pods_ProfileFirebaseDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		3D231D9422A54D8500051EB9 /* CustomCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCellTableViewCell.swift; sourceTree = "<group>"; };
 		3D231D9522A54D8500051EB9 /* CustomCellTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCellTableViewCell.xib; sourceTree = "<group>"; };
 		3D8A7F1F22A6452B002626E9 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		3DD8E6ED22B8F84D00FDF1BC /* ProfileDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailViewController.swift; sourceTree = "<group>"; };
 		77310E0CDE39C0E573CE3EE1 /* Pods-ProfileFirebaseDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProfileFirebaseDemo.debug.xcconfig"; path = "Target Support Files/Pods-ProfileFirebaseDemo/Pods-ProfileFirebaseDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		E8054FA208AC4997001D8CA0 /* Pods_ProfileFirebaseDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ProfileFirebaseDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDA0C52CB20F5AF33D4D6FC1 /* Pods-ProfileFirebaseDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProfileFirebaseDemo.release.xcconfig"; path = "Target Support Files/Pods-ProfileFirebaseDemo/Pods-ProfileFirebaseDemo.release.xcconfig"; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 				3D231D7722A52A9D00051EB9 /* AppDelegate.swift */,
 				3D231D7922A52A9D00051EB9 /* ViewController.swift */,
 				3D231D8B22A538C600051EB9 /* AddProfileViewController.swift */,
+				3DD8E6ED22B8F84D00FDF1BC /* ProfileDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -250,7 +253,9 @@
 				"${PODS_ROOT}/Target Support Files/Pods-ProfileFirebaseDemo/Pods-ProfileFirebaseDemo-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
+				"${BUILT_PRODUCTS_DIR}/MYTableViewIndex/MYTableViewIndex.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -260,7 +265,9 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MYTableViewIndex.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -281,6 +288,7 @@
 				3D231D8E22A54AA500051EB9 /* Theme.swift in Sources */,
 				3D231D8C22A538C600051EB9 /* AddProfileViewController.swift in Sources */,
 				3D231D9622A54D8500051EB9 /* CustomCellTableViewCell.swift in Sources */,
+				3DD8E6EE22B8F84D00FDF1BC /* ProfileDetailViewController.swift in Sources */,
 				3D231D7822A52A9D00051EB9 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,12 +8,16 @@
 
 import Foundation
 import UIKit
-class Profile {
+class Profile : CollationIndexable{
+    
+    
     
     var name : String = ""
     var dob : String = ""
     var photoURL : String = ""
     var img : UIImage?
     
-    
+    @objc var collationString: String {
+        return name
+    }
 }

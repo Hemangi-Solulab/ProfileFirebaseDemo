@@ -8,6 +8,8 @@
 
 import UIKit
 import Firebase
+import GoogleMobileAds
+import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,8 +20,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        
         FirebaseApp.configure()
+        
+        //GADMobileAds.configure(withApplicationID: "ca-app-pub-6303700632205864~7994684797")
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        
+     
+        GADRewardBasedVideoAd.sharedInstance().load(GADRequest(),
+                                                    withAdUnitID: "ca-app-pub-3940256099942544/1712485313")
+        
+        
+      IQKeyboardManager.shared.enable = true
+        
         applyTheme()
+        
         
         return true
     }
