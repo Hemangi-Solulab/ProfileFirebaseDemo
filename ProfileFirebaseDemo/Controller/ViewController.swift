@@ -12,20 +12,19 @@ import Kingfisher
 import GoogleMobileAds
 
 class ViewController: UIViewController {
-    
-    @IBOutlet weak var ProfileTableView: UITableView!
+    // Outlets
+    @IBOutlet weak var profileTableView: UITableView!
     @IBOutlet weak var bannerView: GADBannerView!
     
-    var profileArray : [Profile] = [Profile]()
+    // Variable Declarations
+    var profileArray: [Profile] = [Profile]()
     var profileToSend = Profile()
     var interstitial: GADInterstitial!
     let request = GADRequest()
     
-    //MARK: try index on tableView
-    
-    // let profileIndexTitles = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
     var profileSection = [String]()
     var profileDictionary = [String: [Profile]]()
+    
     func generateProfileDict(){
         profileSection.removeAll()
         profileDictionary.removeAll()
@@ -45,16 +44,18 @@ class ViewController: UIViewController {
         profileSection = [String](profileDictionary.keys)
         profileSection = profileSection.sorted()
         
-        self.ProfileTableView.reloadData()
+        self.profileTableView.reloadData()
     }
+    
+    // MARK:- View Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ProfileTableView.delegate = self
-        ProfileTableView.dataSource = self
+        profileTableView.delegate = self
+        profileTableView.dataSource = self
         
-        ProfileTableView.register(UINib(nibName: "CustomCellTableViewCell", bundle: nil), forCellReuseIdentifier: "customProfileCell")
+        profileTableView.register(UINib(nibName: "CustomCellTableViewCell", bundle: nil), forCellReuseIdentifier: "customProfileCell")
         
         retrieveData {
             print("DONE")
@@ -86,11 +87,13 @@ class ViewController: UIViewController {
             
             self.profileArray.append(profile)
             self.generateProfileDict()
-            //self.ProfileTableView.reloadData()
+            //self.profileTableView.reloadData()
         }
         print(profileArray.count)
         finished()
     }
+    
+    // MARK:- Actions
     
     @IBAction func createAdvPressed(_ sender: Any) {
         if interstitial.isReady {
