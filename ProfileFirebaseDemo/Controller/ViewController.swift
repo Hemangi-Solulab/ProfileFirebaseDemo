@@ -11,20 +11,42 @@ import Firebase
 import Kingfisher
 import GoogleMobileAds
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-  
+class ViewController: UIViewController {
+    
+    @IBOutlet weak var ProfileTableView: UITableView!
+    @IBOutlet weak var bannerView: GADBannerView!
+    
     var profileArray : [Profile] = [Profile]()
     var profileToSend = Profile()
     var interstitial: GADInterstitial!
     let request = GADRequest()
     
-    //try
-//    var profileDictionary = [String: [Profile]]()
-//    var profileSectionTitles = [String]()
+    //MARK: try index on tableView
     
-    @IBOutlet weak var ProfileTableView: UITableView!
-    @IBOutlet weak var bannerView: GADBannerView!
-    
+    // let profileIndexTitles = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+    var profileSection = [String]()
+    var profileDictionary = [String: [Profile]]()
+    func generateProfileDict(){
+        profileSection.removeAll()
+        profileDictionary.removeAll()
+        
+        for profile in profileArray{
+            
+            let key = "\(profile.name[profile.name.startIndex])"
+            let upper = key.uppercased()
+            
+            if var profileValues = profileDictionary[upper] {
+                profileValues.append(profile)
+                profileDictionary[upper] = profileValues
+            } else {
+                profileDictionary[upper] = [profile]
+            }
+        }
+        profileSection = [String](profileDictionary.keys)
+        profileSection = profileSection.sorted()
+        
+        self.ProfileTableView.reloadData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,9 +56,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         ProfileTableView.register(UINib(nibName: "CustomCellTableViewCell", bundle: nil), forCellReuseIdentifier: "customProfileCell")
         
-        retrieveData()
+        retrieveData {
+            print("DONE")
+        }
         
-        //MARK: Ads
+        //MARK: Google AdMob
         bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         bannerView.rootViewController = self
         bannerView.load(request)
@@ -45,7 +69,27 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         interstitial.load(request)
         
         GADRewardBasedVideoAd.sharedInstance().delegate = self
+    }
     
+    //MARK: retrive data
+    func retrieveData(finished: () -> Void){
+        
+        let profileDB = Database.database().reference().child("Profiles")
+        profileDB.observe(.childAdded) { (snapshot) in
+            
+            let snapshotValue = snapshot.value as! Dictionary<String,String>
+            
+            let profile = Profile()
+            profile.name = snapshotValue["name"]!
+            profile.dob = snapshotValue["dob"]!
+            profile.photoURL = snapshotValue["photoURL"]!
+            
+            self.profileArray.append(profile)
+            self.generateProfileDict()
+            //self.ProfileTableView.reloadData()
+        }
+        print(profileArray.count)
+        finished()
     }
     
     @IBAction func createAdvPressed(_ sender: Any) {
@@ -74,44 +118,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         GADRewardBasedVideoAd.sharedInstance().load(request, withAdUnitID: "ca-app-pub-3940256099942544/1712485313")
     }
     
-    //MARK: table View delegate methods
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return profileArray.count
-        
-    }
-   
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "customProfileCell", for: indexPath) as! CustomCellTableViewCell
-      
-      cell.NameLabel.text = profileArray[indexPath.row].name
-        cell.DOBlabel.text = profileArray[indexPath.row].dob
-        let imgUrl = URL(string : profileArray[indexPath.row].photoURL)
-        cell.imgProfilePic.kf.setImage(with: imgUrl)
-
-        
-        /* get image from url
-         *************************************************************
-         let url = URL(string: imgUrl)
-         
-         DispatchQueue.global().async {
-         let data = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
-         DispatchQueue.main.async {
-         cell.imgProfilePic.image = UIImage(data: data!)
-         }
-         }
-         *************************************************************
-         */
-        
-        return cell
-    }
     
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let currentProfile = profileArray[indexPath.row]
-        performSegue(withIdentifier: "goToDetail", sender: currentProfile)
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToDetail" {
@@ -120,44 +128,65 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    //MARK: retrive data
-    func retrieveData(){
-        let profileDB = Database.database().reference().child("Profiles")
-        profileDB.observe(.childAdded) { (snapshot) in
-            
-            let snapshotValue = snapshot.value as! Dictionary<String,String>
-            
-            let profile = Profile()
-            profile.name = snapshotValue["name"]!
-            profile.dob = snapshotValue["dob"]!
-            profile.photoURL = snapshotValue["photoURL"]!
-            
-            self.profileArray.append(profile)
-            self.ProfileTableView.reloadData()
+    
+}
+
+extension ViewController : UITableViewDelegate, UITableViewDataSource {
+    
+    //MARK: Table View Data Source Methods
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let profileKey = profileSection[section]
+        if let profileValues = profileDictionary[profileKey] {
+            return profileValues.count
         }
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "customProfileCell", for: indexPath) as! CustomCellTableViewCell
+        
+        let profileKey = profileSection[indexPath.section]
+        if let profileValues = profileDictionary[profileKey.uppercased()]{
+            cell.NameLabel.text = profileValues[indexPath.row].name
+            cell.DOBlabel.text = profileValues[indexPath.row].dob
+            let imgUrl = URL(string : profileValues[indexPath.row].photoURL)
+            cell.imgProfilePic.kf.setImage(with: imgUrl)
+        }
+        return cell
+    }
+    
+    //MARK: Table View Delegate Methods
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let profileKey = profileSection[indexPath.section]
+        let currentProfile = profileDictionary[profileKey.uppercased()]![indexPath.row]
+        
+        performSegue(withIdentifier: "goToDetail", sender: currentProfile)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    //MARK: Table View Index and Section Methods
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return profileSection.count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return profileSection[section]
+    }
+    
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return profileSection
+    }
+    
+    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        guard let index = profileSection.firstIndex(of: title) else { return -1 }
+        return index
     }
 }
 
 extension ViewController : GADRewardBasedVideoAdDelegate {
     
-    func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
-                            didRewardUserWith reward: GADAdReward) {
+    func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd, didRewardUserWith reward: GADAdReward) {
         print("Reward received with currency: \(reward.type), amount \(reward.amount).")
     }
 }
 
-//extension ViewController : TableViewIndexDelegate, TableViewIndexDataSource {
-//    func indexItems(for tableViewIndex: TableViewIndex) -> [UIView] {
-//        return UILocalizedIndexedCollation.current().sectionIndexTitles.map{ title -> UIView in
-//            return StringItem(text: title)
-//        }
-//    }
-//
-//    func tableViewIndex(_ tableViewIndex: TableViewIndex, didSelect item: UIView, at index: Int) -> Bool {
-//        let indexPath = NSIndexPath(forRow: 0, inSection: sectionIndex)
-//        tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: false)
-//
-//        return true // return true to produce haptic feedback on capable devices
-//    }
-
-//}

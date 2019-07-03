@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class AddProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class AddProfileViewController: UIViewController {
     
     @IBOutlet weak var PhotoImgView: UIImageView!
     @IBOutlet weak var NameTextField: UITextField!
@@ -43,25 +43,12 @@ class AddProfileViewController: UIViewController, UIImagePickerControllerDelegat
     @IBAction func SaveBtnClicked(_ sender: Any) {
         uploadPhoto(self.PhotoImgView.image!){ url in
             self.saveData(picURL: url!){ success in
-                if success != nil {
-                    print("Yeah..")
-                }
+                if success != nil { print("Yeah..") }
             }
         }
-        
     }
     
-    //MARK: UIImagePickerControllerDelegate methods
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard (info[.editedImage] as? UIImage) != nil else {
-            print("No image found")
-            return
-        }
-        
-        picker.dismiss(animated: true) {
-            self.PhotoImgView.image = info[.editedImage] as? UIImage
-        }
-    }
+    
     
     @IBAction func btnTakePicturre(_ sender: Any) {
         
@@ -70,9 +57,7 @@ class AddProfileViewController: UIViewController, UIImagePickerControllerDelegat
         let cameraButton = UIAlertAction(title: "Camera", style: .default, handler: { (action) -> Void in
             if !UIImagePickerController.isSourceTypeAvailable(.camera){
                 let alertController = UIAlertController.init(title: nil, message: "Device has no camera.", preferredStyle: .alert)
-                let okAction = UIAlertAction.init(title: "Alright", style: .default, handler: {(alert: UIAlertAction!) in
-                })
-                
+                let okAction = UIAlertAction.init(title: "Alright", style: .default, handler: {(alert: UIAlertAction!) in })
                 alertController.addAction(okAction)
                 self.present(alertController, animated: true, completion: nil)
             }
@@ -107,13 +92,10 @@ class AddProfileViewController: UIViewController, UIImagePickerControllerDelegat
         let metaData = StorageMetadata()
         metaData.contentType = "image/png"
         storageRef.putData(imgData!, metadata: metaData) { (metadata, error) in
-            
-            if error == nil{
+            if error == nil {
                 print("Success")
-                storageRef.downloadURL(completion: { (url, error) in
-                    completion(url)
-                })
-            }else {
+                storageRef.downloadURL(completion: { (url, error) in completion(url) })
+            } else {
                 print(error!)
                 completion(nil)
             }
@@ -125,11 +107,10 @@ class AddProfileViewController: UIViewController, UIImagePickerControllerDelegat
         let profileDictionary = ["name" : NameTextField.text!, "dob" : DOBtextField.text!, "photoURL" : picURL.absoluteString] as [String : Any]
         let profileDB = Database.database().reference().child("Profiles")
         
-        profileDB.childByAutoId().setValue(profileDictionary){
-            (error, reference) in
+        profileDB.childByAutoId().setValue(profileDictionary){ (error, reference) in
             if error != nil {
                 print(error!)
-            }else {
+            } else {
                 print("Message saved successfully..")
                 self.NameTextField.text = ""
                 self.DOBtextField.text = ""
@@ -138,3 +119,19 @@ class AddProfileViewController: UIViewController, UIImagePickerControllerDelegat
         }
     }
 }
+
+extension AddProfileViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+    //MARK: UIImagePickerControllerDelegate methods
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard (info[.editedImage] as? UIImage) != nil else {
+            print("No image found")
+            return
+        }
+        
+        picker.dismiss(animated: true) {
+            self.PhotoImgView.image = info[.editedImage] as? UIImage
+        }
+    }
+}
+
+

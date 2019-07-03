@@ -21,16 +21,12 @@ class ProfileDetailViewController: UIViewController {
     @IBOutlet weak var changeImgButton: UIButton!
     
     
-    
-    
     var currentProfile : Profile!
-     var imagePicker: UIImagePickerController = UIImagePickerController()
+    var imagePicker: UIImagePickerController = UIImagePickerController()
     private var DOBdatePicker = UIDatePicker()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-     
-        
         
         //        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.regular)
         //        let blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -38,11 +34,10 @@ class ProfileDetailViewController: UIViewController {
         //        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         //        bigImageView.addSubview(blurEffectView)
     }
+    
     override func viewDidLayoutSubviews() {
         makeRound(view: profileCirclePic)
         bigImageView.addBottomRoundedEdge(desiredCurve: 1.5)
-        
-        
         
         let url = URL(string : currentProfile.photoURL)
         profileCirclePic.kf.setImage(with: url)
@@ -50,7 +45,6 @@ class ProfileDetailViewController: UIViewController {
         nameTextView.text = currentProfile.name
         nameTextView.isEnabled = false
         dobTextView.text = currentProfile.dob
-        
         
         blurEffect()
         
@@ -60,7 +54,6 @@ class ProfileDetailViewController: UIViewController {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(closeDatePicker(gestureRecognizer:)))
         view.addGestureRecognizer(tapGesture)
-        
     }
     
     @objc func dateChanged(DOBdatePicker: UIDatePicker){
@@ -135,13 +128,13 @@ class ProfileDetailViewController: UIViewController {
     
     @IBAction func saveButtonPressed(_ sender: Any) {
         
-//        uploadPhoto(self.profileCirclePic.image!){ url in
-//            self.saveData(picURL: url!){ success in
-//                if success != nil {
-//                    print("Yeah..")
-//                }
-//            }
-//        }
+        //        uploadPhoto(self.profileCirclePic.image!){ url in
+        //            self.saveData(picURL: url!){ success in
+        //                if success != nil {
+        //                    print("Yeah..")
+        //                }
+        //            }
+        //        }
     }
     
     func uploadPhoto(_ image:UIImage, completion : @escaping((_ url:URL?) -> ())){
@@ -151,7 +144,7 @@ class ProfileDetailViewController: UIViewController {
         let metaData = StorageMetadata()
         metaData.contentType = "image/png"
         storageRef.putData(imgData!, metadata: metaData) { (metadata, error) in
-
+            
             if error == nil{
                 print("Success")
                 storageRef.downloadURL(completion: { (url, error) in
@@ -163,25 +156,25 @@ class ProfileDetailViewController: UIViewController {
             }
         }
     }
-
-//    func saveData(picURL : URL, completion : @escaping((_ url:URL?) -> ())){
-//
-//        let profileDictionary = ["name" : nameTextView.text!, "dob" : dobTextView.text!, "photoURL" : picURL.absoluteString] as [String : Any]
-//        let profileDB = Database.database().reference().child("Profiles")
-//
-//        profileDB.childByAutoId().setValue(profileDictionary){
-//            (error, reference) in
-//            if error != nil {
-//                print(error!)
-//            }else {
-//                print("Message saved successfully..")
-//                self.NameTextField.text = ""
-//                self.DOBtextField.text = ""
-//                self.navigationController?.popToRootViewController(animated: true)
-//            }
-//        }
-//    }
-//
+    
+    //    func saveData(picURL : URL, completion : @escaping((_ url:URL?) -> ())){
+    //
+    //        let profileDictionary = ["name" : nameTextView.text!, "dob" : dobTextView.text!, "photoURL" : picURL.absoluteString] as [String : Any]
+    //        let profileDB = Database.database().reference().child("Profiles")
+    //
+    //        profileDB.childByAutoId().setValue(profileDictionary){
+    //            (error, reference) in
+    //            if error != nil {
+    //                print(error!)
+    //            }else {
+    //                print("Message saved successfully..")
+    //                self.NameTextField.text = ""
+    //                self.DOBtextField.text = ""
+    //                self.navigationController?.popToRootViewController(animated: true)
+    //            }
+    //        }
+    //    }
+    //
     
     func blurEffect() {
         //let thumb1 = bigImageView.image!.resized(withPercentage: 0.05)
