@@ -10,21 +10,9 @@ import UIKit
 import Firebase
 import Kingfisher
 import GoogleMobileAds
-//import MYTableViewIndex
-
-
-@objc protocol CollationIndexable {
-    @objc var collationString : String { get }
-}
-
-
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
-    
-
-    
-    
+  
     var profileArray : [Profile] = [Profile]()
     var profileToSend = Profile()
     var interstitial: GADInterstitial!
@@ -34,30 +22,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //    var profileDictionary = [String: [Profile]]()
 //    var profileSectionTitles = [String]()
     
-    let collation = UILocalizedIndexedCollation.current()
-    var sections: [[AnyObject]] = []
-    var objects: [AnyObject] = [] {
-        didSet {
-            
-            let selector = #selector(getter: CollationIndexable.collationString)
-            sections = Array(repeating: [], count: collation.sectionTitles.count)
-
-            let sortedObjects = collation.sortedArray(from: objects, collationStringSelector: selector)
-            for object in sortedObjects {
-                let sectionNumber = collation.section(for: object, collationStringSelector: selector)
-                sections[sectionNumber].append(object as AnyObject)
-            }
-            
-            self.ProfileTableView.reloadData()
-        }
-    }
-    
     @IBOutlet weak var ProfileTableView: UITableView!
     @IBOutlet weak var bannerView: GADBannerView!
-    
-    
-   // @IBOutlet fileprivate var tableViewIndex: TableViewIndex!
-    //    fileprivate var indexDataSource: TableViewIndexDataSource!
     
     
     override func viewDidLoad() {
@@ -79,26 +45,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         interstitial.load(request)
         
         GADRewardBasedVideoAd.sharedInstance().delegate = self
-       
-        
- //let tableViewIndexController = TableViewIndexController(scrollView: ProfileTableView)
-       
-//tableViewIndexController.tableViewIndex.dataSource = indexDataSource
-        
-      //  indexDataSource = ["A","B"] as! TableViewIndexDataSource
-        
-    }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return collation.sectionTitles[section]
-    }
-    
-    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return collation.sectionIndexTitles
-    }
-    
-    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-        return collation.section(forSectionIndexTitle: index)
     }
     
     @IBAction func createAdvPressed(_ sender: Any) {
@@ -130,46 +77,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //MARK: table View delegate methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // 2
-//        let profileKey = profileSectionTitles[section]
-//        if let profileValues = profileDictionary[profileKey] {
-//            return profileValues.count
-//        }
-//
-//        return 0
-        //if sections[section].count > 0 {
-            return sections[section].count
-        //} else{
-//            return 0
-//        }
+        return profileArray.count
         
-//        return collation.sectionIndexTitles.count
-
-       // return profileArray.count
     }
-    
-   func numberOfSections(in tableView: UITableView) -> Int {
-        // 1
-        //return profileSectionTitles.count
-    //return collation.sectionTitles.count
-    return sections.count
-    }
-    
+   
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customProfileCell", for: indexPath) as! CustomCellTableViewCell
       
-        
-//        let profileKey = profileSectionTitles[indexPath.section]
-//        if let profileValues = profileDictionary[profileKey] {
-//
-        
-        cell.NameLabel.text = profileArray[indexPath.row].name
+      cell.NameLabel.text = profileArray[indexPath.row].name
         cell.DOBlabel.text = profileArray[indexPath.row].dob
         let imgUrl = URL(string : profileArray[indexPath.row].photoURL)
         cell.imgProfilePic.kf.setImage(with: imgUrl)
-        
-        
-//        }
+
         
         /* get image from url
          *************************************************************
@@ -187,13 +106,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
-//  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        return profileSectionTitles[section]
-//    }
-//
-//   func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-//        return profileSectionTitles
-//    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let currentProfile = profileArray[indexPath.row]
@@ -221,29 +133,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             profile.photoURL = snapshotValue["photoURL"]!
             
             self.profileArray.append(profile)
-            self.objects.append(profile)
-            
-            
-            //MARK: alphabetical scrollbar
-//            for profile1 in self.profileArray {
-//                let profileKey = String(profile1.name.prefix(1))
-//                if var profileValues = self.profileDictionary[profileKey] {
-//                    profileValues.append(profile1)
-//                    self.profileDictionary[profileKey] = profileValues
-//                } else {
-//                    self.profileDictionary[profileKey] = [profile1]
-//                }
-//            }
-//            
-//            // 2
-//            self.profileSectionTitles = [String](self.profileDictionary.keys)
-//            self.profileSectionTitles = self.profileSectionTitles.sorted(by: { $0 < $1 })
-//            
-//            
-            
-            
-            
-            
             self.ProfileTableView.reloadData()
         }
     }

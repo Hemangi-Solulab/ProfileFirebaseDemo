@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-class Profile : CollationIndexable{
+class Profile {
     
     
     
@@ -17,7 +17,4 @@ class Profile : CollationIndexable{
     var photoURL : String = ""
     var img : UIImage?
     
-    @objc var collationString: String {
-        return name
-    }
 }
